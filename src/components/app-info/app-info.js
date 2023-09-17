@@ -1,13 +1,15 @@
 import "./app-info.css";
 
-const AppInfo = () => {
+const AppInfo = ({ totalEmployeeCount, onRiseCount }) => {
     return (
-        <div className="app-info">
-            <h1>Pritzker Development</h1>
-            <h2>Общее число сотрудников:</h2>
-            <h2>Премию получат:</h2>
-        </div>
-    )
-}
+      <div className="app-info">
+        <h1>Employee Management System</h1>
+        <h2>Total number of employees: {totalEmployeeCount}</h2>
+        <h3>Employees on rise: {onRiseCount}</h3>
+      </div>
+    );
+  };
+  
+  
 
 export default AppInfo;

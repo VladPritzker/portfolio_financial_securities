@@ -8,19 +8,19 @@ const AppFilter = ({ onRise, highIncome, allEmployees, activeButton }) => {
             <button type="button"
         className={`btn ${activeButton === 'all' ? 'btn-light' : 'btn-outline-light'}`}
         onClick={allEmployees}>
-                    Все сотрудники
+                    All employees
             </button>
             <button type="button"
         className={`btn ${activeButton === 'onRise' ? 'btn-light' : 'btn-outline-light'}`}
         onClick={onRise}
                     >
-                    На повышение
+                    Up for promotion
             </button>
             <button type="button"
         className={`btn ${activeButton === 'highIncome' ? 'btn-light' : 'btn-outline-light'}`}
         onClick={highIncome}
             >
-                    З/П больше 1000$
+                    Salary more than 1000$
             </button>
         </div>
     )
