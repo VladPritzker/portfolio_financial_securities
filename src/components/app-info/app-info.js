@@ -1,5 +1,5 @@
 import "./app-info.css";
-import pdLogo from "/Users/vladbuzhor/Library/Mobile Documents/com~apple~CloudDocs/Vlad/Study/Study/New_project/employees_template/src/components/photo/PD.png"; // Путь к вашему фото
+import pdLogo from "/Users/vladbuzhor/Library/Mobile Documents/com~apple~CloudDocs/Vlad/Study/Study/New_project/employees_template/src/images/PD.png"
 
 const AppInfo = ({ totalEmployeeCount, onRiseCount }) => {
   return (
