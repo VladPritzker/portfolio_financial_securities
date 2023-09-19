@@ -3,10 +3,8 @@
     padding: 25px;
     margin-left: -400px;
     background-color: #c7cdd5;
-        border-radius: 4px;
-        /* box-shadow: 15px 15px 30px rgba(0,0,0, .15); */
-
-    color: #fff;
+    border-radius: 4px;
+    color: #111111;
 }
 .app-info-content{
     margin-left: -50px;
@@ -15,8 +13,8 @@
 }
 .pd-logo {
     float: left; /* Заставляем изображение "плавать" справа */
-    margin-left: -390px; /* Увеличьте значение, чтобы подвинуть изображение влево */
-    width: 200px; /* Устанавливаем ширину изображения по вашему выбору */
+    margin-left: -400px; /* Увеличьте значение, чтобы подвинуть изображение влево */
+    width: 250px; /* Устанавливаем ширину изображения по вашему выбору */
     height: 180px;
     margin-top: -180px; 
     box-shadow: 15px 15px 30px rgba(0,0,0, .15);
