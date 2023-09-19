@@ -23,13 +23,14 @@ const EmployeesListItem = ({ data, onRiseStar }) => {
                 onChange={handleInputChange} // Обрабатываем изменения input
             />
             <div className='d-flex justify-content-center align-items-center'>
-                <button type="button" className="btn-cookie btn-sm" onClick={handleCookieClick}>
-                    <i className="fas fa-cookie"></i>
+                <button type="button" className=" btn-sm" onClick={handleCookieClick}>
+                    <i className="fa fa-chart-line"></i>
                 </button>
+
                 <button type="button" className="btn-trash btn-sm ">
                     <i className="fas fa-trash"></i>
                 </button>
-                <i className={`fas fa-star ${data.onrise ? 'like' : ''}`}></i>
+                <i className={`fa fa-check	 ${data.onrise ? 'like' : ''}`}></i>
             </div>
         </li>
     );

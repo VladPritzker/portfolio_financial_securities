@@ -14,7 +14,7 @@ const EmployeesAddForm = () => {
                     placeholder="Last Name?" />
                 <input type="number"
                     className="form-control new-post-label"
-                    placeholder="Salary in $" />
+                    placeholder="Invested amount?" />
 
                 <button type="submit"
                         className="btn btn-outline-light">Add</button>

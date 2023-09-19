@@ -10,7 +10,7 @@ const AppInfo = ({ totalEmployeeCount, onRiseCount }) => {
         </div>
         <div>
           <h2>Total number of investors: {totalEmployeeCount}</h2>
-          <h3>Will increase investments: {onRiseCount}</h3>
+          <h3>Going to increase investments: {onRiseCount}</h3>
         </div>
         <p>The search only works for the "All employees" filter</p>
       </div>

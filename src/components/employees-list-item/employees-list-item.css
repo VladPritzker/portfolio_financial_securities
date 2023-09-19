@@ -29,7 +29,7 @@
     cursor: pointer;
 }
 
-.list-group-item .btn-cookie {
+.list-group-item .fa-line-chart {
     color: #e09f3e;
 }
 
@@ -37,20 +37,21 @@
     color: #e5383b;
 }
 
-.list-group-item .fa-star {
+.list-group-item .fa-check {
     width: 20px;
     height: 0px;
     text-align: center;
     line-height: 5px;
+    margin-left: 10px;
     font-size: 16px;
-    color: #FFD700;
+    color: #191816;
     transition: 0.3s all;
     transform: translateX(0px);
     
     opacity: 0;
 }
 
-.list-group-item.like .fa-star {
+.list-group-item.like .fa-check {
     opacity: 1;
     transform: translateX(0px);
 }
