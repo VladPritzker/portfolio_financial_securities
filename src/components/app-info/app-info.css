@@ -1,7 +1,26 @@
 .app-info {
+    float: right; /* Заставляем изображение "плавать" справа */
     padding: 25px;
-    background-color: #3d5a80;
-    border-radius: 4px;
-    box-shadow: 15px 15px 30px rgba(0,0,0, .15);
+    margin-left: -400px;
+    background-color: #c7cdd5;
+        border-radius: 4px;
+        /* box-shadow: 15px 15px 30px rgba(0,0,0, .15); */
+
     color: #fff;
 }
+.app-info-content{
+    margin-left: -50px;
+    /* box-shadow: 15px 15px 30px rgba(0,0,0, .15); */
+
+}
+.pd-logo {
+    float: left; /* Заставляем изображение "плавать" справа */
+    margin-left: -390px; /* Увеличьте значение, чтобы подвинуть изображение влево */
+    width: 200px; /* Устанавливаем ширину изображения по вашему выбору */
+    height: 180px;
+    margin-top: -180px; 
+    box-shadow: 15px 15px 30px rgba(0,0,0, .15);
+
+    /* Другие стили, если необходимо */
+  }
+  

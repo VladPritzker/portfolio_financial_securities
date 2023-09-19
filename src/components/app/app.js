@@ -7,85 +7,96 @@ import EmployeesList from '../employees-list/employees-list';
 import EmployeesAddForm from '../employees-add-form/employees-add-form';
 
 function App() {
-  const [users, setUsers] = useState([]);
-  const [data, setData] = useState([
+  const initialData = [
     { index: 1, name: 'Vlad', lastName: 'Pritzker', salary: "4000$", onrise: false },
-    { index: 2, name: 'Ruslan', lastName: 'Menager', salary: "200$", onrise: false },
+    { index: 2, name: 'Ruslan', lastName: 'Manager', salary: "200$", onrise: false },
     { index: 3, name: 'Poll', lastName: 'Design', salary: "4000$", onrise: false }
-  ]);
-  const onRiseCount = data.filter((item) => item.onrise === true).length;
+  ];
 
-  const [filteredData, setFilteredData] = useState([]);
+  const [data, setData] = useState(initialData);
   const [activeButton, setActiveButton] = useState('all');
   const [searchText, setSearchText] = useState('');
 
+  const onRiseCount = data ? data.filter((item) => item.onrise === true).length : 0;
+
   
-  const updateState = (newState) => {
-    setData(newState.data);
-    setFilteredData(newState.filteredData);
+
+  const handleSearch = (searchText) => {
+    const searchTextLower = searchText.toLowerCase();
+    // Если поле поиска пустое, отображаем все элементы из исходного массива `initialData`
+    if (searchTextLower === '') {
+      setData(initialData);
+    } else {
+      const filteredData = data.filter((item) => {
+        if (!isNaN(searchTextLower)) {
+          return item.salary.includes(searchTextLower);
+        } else {
+          return (
+            item.name.toLowerCase().includes(searchTextLower) ||
+            item.lastName.toLowerCase().includes(searchTextLower)
+          );
+        }
+      });
+      setData(filteredData);
+    }
   };
   
-  // Функция для вычисления displayedData
-  const getDisplayedData = () => {
+
+  const onRiseStar = (index) => {
+    // Создаем новый массив данных с обновленным значением onrise для конкретного элемента
+    const updatedData = data.map((item) => {
+      if (item.index === index) {
+        return { ...item, onrise: !item.onrise }; // Инвертируем значение onrise
+      }
+      return item;
+    });
+  
+    // Обновляем состояние данных
+    setData(updatedData);
+  };
+  
+  
+  const onRise = () => {
+    setActiveButton('onRise');
+    setSearchText('');
+  };
+
+  const highIncome = () => {
+    setActiveButton('highIncome');
+    setSearchText('');
+  };
+
+  const allEmployees = () => {
+    
+    setActiveButton('all');
+    setSearchText('');
+  };
+
+
+  const displayedData = getDisplayedData();
+
+  function getDisplayedData() {
     if (activeButton === 'onRise') {
       return data.filter((item) => item.onrise === true);
     } else if (activeButton === 'highIncome') {
       return data.filter((item) => parseInt(item.salary) > 1000);
     } else {
-      return Array.isArray(filteredData) && filteredData.length > 0
-        ? filteredData
-        : data;
+      return data;
     }
-  };
-
-  const handleSearch = (filteredData) => {
-    setFilteredData(filteredData);
-  };
-
-  const onRise = () => {
-    const filteredData = data.map((item) => {
-      if (item.onrise === true) {
-        return { ...item, onrise: false };
-      }
-      return item;
-    });
-    setFilteredData(filteredData);
-    setActiveButton('onRise');
-    setSearchText(''); // Сбросить текст поиска
-
-  };
-
-  const highIncome = () => {
-    const filteredData = data.filter((item) => parseInt(item.salary) > 1000);
-    setFilteredData(filteredData);
-    setActiveButton('highIncome');
-    setSearchText(''); // Сбросить текст поиска
-
-  };
-
-  const allEmployees = () => {
-    setFilteredData([]);
-    setActiveButton('all');
-    setSearchText(''); // Сбросить текст поиска
-
-  };
-
-  // Вычисляем displayedData
-  const displayedData = getDisplayedData();
+  }
 
   return (
     <div className="app">
-      <AppInfo totalEmployeeCount={data.length} onRiseCount={onRiseCount} /> {/* Передаем общее количество сотрудников как пропс */}
+      <AppInfo totalEmployeeCount={data.length} onRiseCount={onRiseCount} />
 
       <div className="search-panel">
-        The search only works for the "All employees" filter
         <SearchPanel
-        data={data}
-        onSearch={handleSearch}
-        activeButton={activeButton}
-        searchText={searchText} // Передаем состояние текста поиска
-        setSearchText={setSearchText} // Передаем функцию для обновления текста поиска
-      />
+          data={data}
+          onSearch={handleSearch}
+          activeButton={activeButton}
+          searchText={searchText}
+          setSearchText={setSearchText}
+        />
         <AppFilter
           data={data}
           onRise={onRise}
@@ -95,8 +106,7 @@ function App() {
         />
       </div>
 
-      {/* Передаем displayedData и updateState в компонент EmployeesList */}
-      <EmployeesList displayedData={displayedData} updateState={updateState} />
+      <EmployeesList displayedData={displayedData} data={data} onRiseStar={onRiseStar} />
       <EmployeesAddForm />
     </div>
   );

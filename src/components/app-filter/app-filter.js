@@ -14,13 +14,13 @@ const AppFilter = ({ onRise, highIncome, allEmployees, activeButton }) => {
         className={`btn ${activeButton === 'onRise' ? 'btn-light' : 'btn-outline-light'}`}
         onClick={onRise}
                     >
-                    Up for promotion
+                    Going invest more
             </button>
             <button type="button"
         className={`btn ${activeButton === 'highIncome' ? 'btn-light' : 'btn-outline-light'}`}
         onClick={highIncome}
             >
-                    Salary more than 1000$
+                    Invested more than $1000
             </button>
         </div>
     )
