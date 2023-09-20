@@ -8,16 +8,21 @@ import EmployeesAddForm from '../employees-add-form/employees-add-form';
 
 function App() {
   const initialData = [
-    { index: 1, name: 'Vlad', lastName: 'Pritzker', salary: "4000$", onrise: false },
-    { index: 2, name: 'Ruslan', lastName: 'Manager', salary: "200$", onrise: false },
-    { index: 3, name: 'Poll', lastName: 'Design', salary: "4000$", onrise: false }
+    { index: 1, name: 'Vlad', lastName: 'Pritzker', investedAmount: '4000$', onrise: false },
+    { index: 2, name: 'Ruslan', lastName: 'Manager', investedAmount: '500$', onrise: false },
+    { index: 3, name: 'Poll', lastName: 'Design', investedAmount: '4000$', onrise: false }
   ];
 
   const [data, setData] = useState(initialData);
   const [activeButton, setActiveButton] = useState('all');
   const [searchText, setSearchText] = useState('');
+  const [firstName, setFirstName] = useState(''); // State for first name
+  const [lastName, setLastName] = useState('');   // State for last name
+  const [investedAmount, setInvestedAmount] = useState(''); // State for invested amount
 
   const onRiseCount = data ? data.filter((item) => item.onrise === true).length : 0;
+  const moreThan100 = data ? data.filter((item) => parseInt(item.investedAmount) > 1000).length : 0;
+  
 
   
 
@@ -25,6 +30,27 @@ function App() {
     setSearchText(text);
   };
   
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+
+    // Create a new object with the entered values and default onrise = false
+    const newInvestor = {
+      index: data.length + 1,
+      name: firstName,
+      lastName: lastName,
+      investedAmount: `${investedAmount}$`,
+      onrise: false,
+    };
+
+    // Update the data array with the new object
+    setData([...data, newInvestor]);
+
+    // Reset the input fields
+    setFirstName('');
+    setLastName('');
+    setInvestedAmount('');
+  };
+
   
 
   const onRiseStar = (index) => {
@@ -66,7 +92,7 @@ function App() {
     if (activeButton === 'onRise') {
       filteredData = filteredData.filter((item) => item.onrise === true);
     } else if (activeButton === 'highIncome') {
-      filteredData = filteredData.filter((item) => parseInt(item.salary) > 1000);
+      filteredData = filteredData.filter((item) => parseInt(item.investedAmount) > 1000);
     }
   
     if (searchText.length > 0) {
@@ -88,7 +114,7 @@ function App() {
   
   return (
     <div className="app">
-      <AppInfo totalEmployeeCount={data.length} onRiseCount={onRiseCount} />
+      <AppInfo totalEmployeeCount={data.length} onRiseCount={onRiseCount}  moreThan100={moreThan100}/>
 
       <div className="search-panel">
         <SearchPanel
@@ -108,7 +134,15 @@ function App() {
       </div>
 
       <EmployeesList displayedData={displayedData} data={data} onRiseStar={onRiseStar} />
-      <EmployeesAddForm />
+      <EmployeesAddForm
+        onFormSubmit={handleFormSubmit}
+        firstName={firstName}
+        setFirstName={setFirstName}
+        lastName={lastName}
+        setLastName={setLastName}
+        investedAmount={investedAmount}
+        setInvestedAmount={setInvestedAmount}
+      />
     </div>
   );
 }

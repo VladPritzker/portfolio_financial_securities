@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './employees-list-item.css';
 
 const EmployeesListItem = ({ data, onRiseStar }) => {
-    const [inputValue, setInputValue] = useState(data.salary); // Стейт для управления значением input
+    const [inputValue, setInputValue] = useState(data.investedAmount); // Стейт для управления значением input
 
     const handleCookieClick = () => {
         onRiseStar(data.index); // Вызываем функцию onRiseStar с индексом элемента
