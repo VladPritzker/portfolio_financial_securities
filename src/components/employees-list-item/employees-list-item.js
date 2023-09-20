@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './employees-list-item.css';
 
-const EmployeesListItem = ({ data, onRiseStar }) => {
+const EmployeesListItem = ({ data, onRiseStar, toggleDeleteConfirmation }) => {
     const [inputValue, setInputValue] = useState(data.investedAmount); // Стейт для управления значением input
 
     const handleCookieClick = () => {
@@ -27,9 +27,10 @@ const EmployeesListItem = ({ data, onRiseStar }) => {
                     <i className="fa fa-chart-line"></i>
                 </button>
 
-                <button type="button" className="btn-trash btn-sm ">
-                    <i className="fas fa-trash"></i>
+                <button  type="button" className="btn-trash btn-sm"onClick={() => toggleDeleteConfirmation(data.index)}>
+                <i className="fas fa-trash"></i>
                 </button>
+
                 <i className={`fa fa-check	 ${data.onrise ? 'like' : ''}`}></i>
             </div>
         </li>

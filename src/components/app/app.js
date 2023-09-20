@@ -19,6 +19,14 @@ function App() {
   const [firstName, setFirstName] = useState(''); // State for first name
   const [lastName, setLastName] = useState('');   // State for last name
   const [investedAmount, setInvestedAmount] = useState(''); // State for invested amount
+  const [isDeleteConfirmationVisible, setDeleteConfirmationVisible] = useState(false);
+  const [indexToDelete, setIndexToDelete] = useState(null);
+  const toggleDeleteConfirmation = (index) => {
+    setIndexToDelete(index);
+    setDeleteConfirmationVisible(!isDeleteConfirmationVisible);
+  };
+  
+  
 
   const onRiseCount = data ? data.filter((item) => item.onrise === true).length : 0;
   const moreThan100 = data ? data.filter((item) => parseInt(item.investedAmount) > 1000).length : 0;
@@ -51,6 +59,11 @@ function App() {
     setInvestedAmount('');
   };
 
+  const handleDeleteInvestor = (index) => {
+    const updatedData = data.filter((item) => item.index !== index);
+    setData(updatedData);
+    setDeleteConfirmationVisible(false);
+  };
   
 
   const onRiseStar = (index) => {
@@ -133,7 +146,12 @@ function App() {
         />
       </div>
 
-      <EmployeesList displayedData={displayedData} data={data} onRiseStar={onRiseStar} />
+      <EmployeesList
+        displayedData={displayedData}
+        data={data}
+        onRiseStar={onRiseStar}
+        toggleDeleteConfirmation={toggleDeleteConfirmation} // Pass the function here
+        />
       <EmployeesAddForm
         onFormSubmit={handleFormSubmit}
         firstName={firstName}
@@ -143,6 +161,16 @@ function App() {
         investedAmount={investedAmount}
         setInvestedAmount={setInvestedAmount}
       />
+  {isDeleteConfirmationVisible && (
+  <div className="confirmation-modal">
+    <div className="confirmation-box">
+      <p>Are you sure?</p>
+      <button onClick={() => handleDeleteInvestor(indexToDelete)}>Yes</button>
+      <button onClick={toggleDeleteConfirmation}>No</button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
