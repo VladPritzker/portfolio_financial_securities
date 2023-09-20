@@ -3,7 +3,7 @@ import './employees-add-form.css';
 const EmployeesAddForm = () => {
     return (
         <div className="app-add-form">
-            <h3>Add a new employee</h3>
+            <h3>Add a new investor</h3>
             <form
                 className="add-form d-flex">
                 <input type="text"

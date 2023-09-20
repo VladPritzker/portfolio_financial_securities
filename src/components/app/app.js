@@ -21,25 +21,10 @@ function App() {
 
   
 
-  const handleSearch = (searchText) => {
-    const searchTextLower = searchText.toLowerCase();
-    // Если поле поиска пустое, отображаем все элементы из исходного массива `initialData`
-    if (searchTextLower === '') {
-      setData(initialData);
-    } else {
-      const filteredData = data.filter((item) => {
-        if (!isNaN(searchTextLower)) {
-          return item.salary.includes(searchTextLower);
-        } else {
-          return (
-            item.name.toLowerCase().includes(searchTextLower) ||
-            item.lastName.toLowerCase().includes(searchTextLower)
-          );
-        }
-      });
-      setData(filteredData);
-    }
+  const handleSearch = (text) => {
+    setSearchText(text);
   };
+  
   
 
   const onRiseStar = (index) => {
@@ -67,16 +52,29 @@ function App() {
   };
 
   const allEmployees = () => {
-    
     setActiveButton('all');
     setSearchText('');
+    setData(data)
   };
 
 
   const displayedData = getDisplayedData();
 
   function getDisplayedData() {
-    if (activeButton === 'onRise') {
+    if (searchText.length > 0) {
+      const filteredData = data.filter((item) => {
+        const searchTextLower = searchText.toLowerCase();
+        if (!isNaN(searchTextLower)) {
+          return item.salary.includes(searchTextLower);
+        } else {
+          return (
+            item.name.toLowerCase().includes(searchTextLower) ||
+            item.lastName.toLowerCase().includes(searchTextLower)
+          );
+        }
+      });
+      return filteredData;
+    } else if (activeButton === 'onRise') {
       return data.filter((item) => item.onrise === true);
     } else if (activeButton === 'highIncome') {
       return data.filter((item) => parseInt(item.salary) > 1000);
@@ -84,14 +82,13 @@ function App() {
       return data;
     }
   }
-
   return (
     <div className="app">
       <AppInfo totalEmployeeCount={data.length} onRiseCount={onRiseCount} />
 
       <div className="search-panel">
         <SearchPanel
-          data={data}
+          data={getDisplayedData()} // Передаем отфильтрованные данные
           onSearch={handleSearch}
           activeButton={activeButton}
           searchText={searchText}

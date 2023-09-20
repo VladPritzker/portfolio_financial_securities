@@ -8,7 +8,7 @@ const AppFilter = ({ onRise, highIncome, allEmployees, activeButton }) => {
             <button type="button"
         className={`btn ${activeButton === 'all' ? 'btn-light' : 'btn-outline-light'}`}
         onClick={allEmployees}>
-                    All employees
+                    All investors
             </button>
             <button type="button"
         className={`btn ${activeButton === 'onRise' ? 'btn-light' : 'btn-outline-light'}`}
