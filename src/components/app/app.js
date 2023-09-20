@@ -67,10 +67,8 @@ function App() {
       filteredData = filteredData.filter((item) => item.onrise === true);
     } else if (activeButton === 'highIncome') {
       filteredData = filteredData.filter((item) => parseInt(item.salary) > 1000);
-    }  else if (activeButton === 'all') {
-      return data
     }
-    
+  
     if (searchText.length > 0) {
       const searchTextLower = searchText.toLowerCase();
       filteredData = filteredData.filter((item) => {
