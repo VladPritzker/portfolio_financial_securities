@@ -7,7 +7,6 @@ const SearchPanel = ({ onSearch, searchText, setSearchText, data }) => {
     setSearchText(inputText);
   };
 
-  
     return (
       <input
         type="text"

@@ -12,7 +12,6 @@ const AppInfo = ({ totalEmployeeCount, onRiseCount }) => {
           <h2>Total number of investors: {totalEmployeeCount}</h2>
           <h3>Going to increase investments: {onRiseCount}</h3>
         </div>
-        <p>The search only works for the "All employees" filter</p>
       </div>
       <img src={pdLogo} alt="Pritzker Development Logo" className="pd-logo" />
     </div>
