@@ -5,15 +5,14 @@ import SearchPanel from '../search-panel/search-panel';
 import AppFilter from '../app-filter/app-filter';
 import EmployeesList from '../employees-list/employees-list';
 import EmployeesAddForm from '../employees-add-form/employees-add-form';
+// import { initialData } from '/Users/vladbuzhor/Library/Mobile Documents/com~apple~CloudDocs/Vlad/Study/Study/New_project/employees_template/src/components/redux/reducer.js'; // Import the initialData array
+import { addInvestor, deleteInvestor, updateInvestorOnRise } from '/Users/vladbuzhor/Library/Mobile Documents/com~apple~CloudDocs/Vlad/Study/Study/New_project/employees_template/src/components/redux/actions.js';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 function App() {
-  const initialData = [
-    { index: 1, name: 'Vlad', lastName: 'Pritzker', investedAmount: '4000$', onrise: false },
-    { index: 2, name: 'Ruslan', lastName: 'Manager', investedAmount: '500$', onrise: false },
-    { index: 3, name: 'Poll', lastName: 'Design', investedAmount: '4000$', onrise: false }
-  ];
 
-  const [data, setData] = useState(initialData);
+  const data = useSelector((state) => state);
   const [activeButton, setActiveButton] = useState('all');
   const [searchText, setSearchText] = useState('');
   const [firstName, setFirstName] = useState(''); // State for first name
@@ -21,6 +20,11 @@ function App() {
   const [investedAmount, setInvestedAmount] = useState(''); // State for invested amount
   const [isDeleteConfirmationVisible, setDeleteConfirmationVisible] = useState(false);
   const [indexToDelete, setIndexToDelete] = useState(null);
+  
+  const dispatch = useDispatch();
+
+  
+  
   const toggleDeleteConfirmation = (index) => {
     setIndexToDelete(index);
     setDeleteConfirmationVisible(!isDeleteConfirmationVisible);
@@ -37,11 +41,13 @@ function App() {
   const handleSearch = (text) => {
     setSearchText(text);
   };
+
+
+  
   
   const handleFormSubmit = (event) => {
     event.preventDefault();
-
-    // Create a new object with the entered values and default onrise = false
+  
     const newInvestor = {
       index: data.length + 1,
       name: firstName,
@@ -49,21 +55,19 @@ function App() {
       investedAmount: `${investedAmount}$`,
       onrise: false,
     };
-
-    // Update the data array with the new object
-    setData([...data, newInvestor]);
-
-    // Reset the input fields
+  
+    dispatch(addInvestor(newInvestor));
     setFirstName('');
     setLastName('');
     setInvestedAmount('');
   };
-
+  
   const handleDeleteInvestor = (index) => {
-    const updatedData = data.filter((item) => item.index !== index);
-    setData(updatedData);
+    dispatch(deleteInvestor(index));
     setDeleteConfirmationVisible(false);
   };
+
+
   
 
   const onRiseStar = (index) => {
@@ -75,8 +79,8 @@ function App() {
       return item;
     });
   
-    // Обновляем состояние данных
-    setData(updatedData);
+    // Обновляем состояние данных в Redux state
+    dispatch(updateInvestorOnRise(updatedData));
   };
   
   
@@ -93,7 +97,7 @@ function App() {
   const allEmployees = () => {
     setActiveButton('all');
     setSearchText('');
-    setData(data)
+    // setData(data)
   };
 
 
