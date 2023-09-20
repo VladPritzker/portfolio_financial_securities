@@ -61,9 +61,19 @@ function App() {
   const displayedData = getDisplayedData();
 
   function getDisplayedData() {
+    let filteredData = data;
+  
+    if (activeButton === 'onRise') {
+      filteredData = filteredData.filter((item) => item.onrise === true);
+    } else if (activeButton === 'highIncome') {
+      filteredData = filteredData.filter((item) => parseInt(item.salary) > 1000);
+    }  else if (activeButton === 'all') {
+      return data
+    }
+    
     if (searchText.length > 0) {
-      const filteredData = data.filter((item) => {
-        const searchTextLower = searchText.toLowerCase();
+      const searchTextLower = searchText.toLowerCase();
+      filteredData = filteredData.filter((item) => {
         if (!isNaN(searchTextLower)) {
           return item.salary.includes(searchTextLower);
         } else {
@@ -73,15 +83,11 @@ function App() {
           );
         }
       });
-      return filteredData;
-    } else if (activeButton === 'onRise') {
-      return data.filter((item) => item.onrise === true);
-    } else if (activeButton === 'highIncome') {
-      return data.filter((item) => parseInt(item.salary) > 1000);
-    } else {
-      return data;
     }
+  
+    return filteredData;
   }
+  
   return (
     <div className="app">
       <AppInfo totalEmployeeCount={data.length} onRiseCount={onRiseCount} />
