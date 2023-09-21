@@ -6,7 +6,7 @@ import AppFilter from '../app-filter/app-filter';
 import EmployeesList from '../employees-list/employees-list';
 import EmployeesAddForm from '../employees-add-form/employees-add-form';
 // import { initialData } from '/Users/vladbuzhor/Library/Mobile Documents/com~apple~CloudDocs/Vlad/Study/Study/New_project/employees_template/src/components/redux/reducer.js'; // Import the initialData array
-import { addInvestor, deleteInvestor, updateInvestorOnRise } from '/Users/vladbuzhor/Library/Mobile Documents/com~apple~CloudDocs/Vlad/Study/Study/New_project/employees_template/src/components/redux/actions.js';
+import { addInvestor, deleteInvestor, updateInvestorOnRise } from '../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -88,6 +88,8 @@ function App() {
     setActiveButton('onRise');
     setSearchText('');
   };
+  
+
 
   const highIncome = () => {
     setActiveButton('highIncome');
