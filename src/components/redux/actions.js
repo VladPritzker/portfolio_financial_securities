@@ -45,6 +45,9 @@ export function deleteInvestorOnServer(id) {
             type: DELETE_INVESTOR_ON_SERVER,
             payload: id,
           });
+
+          // После успешного удаления, перезагрузите страницу
+          window.location.reload();
         }
       })
       .catch((error) => {
@@ -52,6 +55,7 @@ export function deleteInvestorOnServer(id) {
       });
   };
 }
+
 
 
 // Экшен для обновления состояния onrise инвестора на сервере

@@ -13,6 +13,8 @@ import {
   fetchInvestors, // Импортируем экшен для загрузки данных с сервера
 } from '../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+
 
 
 function App() {
@@ -61,6 +63,7 @@ function App() {
     event.preventDefault();
 
     const newInvestor = {
+      id: uuidv4(), // Генерация уникального id
       name: firstName,
       lastName: lastName,
       investedAmount: `${investedAmount}$`,
