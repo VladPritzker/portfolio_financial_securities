@@ -1,5 +1,5 @@
 import "./app-info.css";
-import pdLogo from "./PD.png"; // Путь к вашему фото
+import pdLogo from "./Pritzker_Development.png"; // Путь к вашему фото
 
 const AppInfo = ({ totalEmployeeCount, onRiseCount, moreThan100 }) => {
   return (
@@ -15,6 +15,7 @@ const AppInfo = ({ totalEmployeeCount, onRiseCount, moreThan100 }) => {
         </div>
       </div>
       <img src={pdLogo} alt="Pritzker Development Logo" className="pd-logo" />
+      
     </div>
   );
 };

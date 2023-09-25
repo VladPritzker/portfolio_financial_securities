@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Добавьте useEffect в импорт
 import './app.css';
 import AppInfo from '../app-info/app-info';
 import SearchPanel from '../search-panel/search-panel';
 import AppFilter from '../app-filter/app-filter';
 import EmployeesList from '../employees-list/employees-list';
 import EmployeesAddForm from '../employees-add-form/employees-add-form';
-// import { initialData } from '/Users/vladbuzhor/Library/Mobile Documents/com~apple~CloudDocs/Vlad/Study/Study/New_project/employees_template/src/components/redux/reducer.js'; // Import the initialData array
-import { addInvestor, deleteInvestor, updateInvestorOnRise } from '../redux/actions';
+import {
+  // ... другие импорты ...
+  addInvestorToServer,
+  deleteInvestorOnServer,
+  updateInvestorOnRiseOnServer,
+  fetchInvestors, // Импортируем экшен для загрузки данных с сервера
+} from '../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 
 function App() {
 
-  const data = useSelector((state) => state);
+  
   const [activeButton, setActiveButton] = useState('all');
   const [searchText, setSearchText] = useState('');
   const [firstName, setFirstName] = useState(''); // State for first name
@@ -22,6 +27,13 @@ function App() {
   const [indexToDelete, setIndexToDelete] = useState(null);
   
   const dispatch = useDispatch();
+  const data = useSelector((state) => state);
+
+  useEffect(() => {
+    dispatch(fetchInvestors()); // Вызываем экшен для загрузки данных с сервера при монтировании компонента
+  }, [dispatch]);
+
+ 
 
   
   
@@ -47,42 +59,38 @@ function App() {
   
   const handleFormSubmit = (event) => {
     event.preventDefault();
-  
+
     const newInvestor = {
-      index: data.length + 1,
       name: firstName,
       lastName: lastName,
       investedAmount: `${investedAmount}$`,
       onrise: false,
     };
-  
-    dispatch(addInvestor(newInvestor));
+
+    dispatch(addInvestorToServer(newInvestor)); // Отправляем запрос на сервер для добавления инвестора
     setFirstName('');
     setLastName('');
     setInvestedAmount('');
   };
+
+
+
+
   
   const handleDeleteInvestor = (index) => {
-    dispatch(deleteInvestor(index));
+    dispatch(deleteInvestorOnServer(index)); // Отправляем запрос на сервер для удаления инвестора
     setDeleteConfirmationVisible(false);
   };
+
 
 
   
 
   const onRiseStar = (index) => {
-    // Создаем новый массив данных с обновленным значением onrise для конкретного элемента
-    const updatedData = data.map((item) => {
-      if (item.index === index) {
-        return { ...item, onrise: !item.onrise }; // Инвертируем значение onrise
-      }
-      return item;
-    });
-  
-    // Обновляем состояние данных в Redux state
-    dispatch(updateInvestorOnRise(updatedData));
+    // Отправляем запрос на сервер для обновления состояния onrise инвестора
+    console.log(index)
+    dispatch(updateInvestorOnRiseOnServer(index, !data[index].onrise));
   };
-  
   
   const onRise = () => {
     setActiveButton('onRise');
@@ -155,8 +163,10 @@ function App() {
       <EmployeesList
         displayedData={displayedData}
         data={data}
-        onRiseStar={onRiseStar}
+        onRiseStar={(index) => onRiseStar(index)} // Убедитесь, что index правильно передается здесь
+
         toggleDeleteConfirmation={toggleDeleteConfirmation} // Pass the function here
+        keyExtractor={(investor) => investor.index} // Уникальный ключ инвестора
         />
       <EmployeesAddForm
         onFormSubmit={handleFormSubmit}

@@ -1,21 +1,26 @@
-// Редюсер (reducer) - обрабатывает экшены и изменяет состояние
+import {
+  ADD_INVESTOR_TO_SERVER,
+  DELETE_INVESTOR_ON_SERVER,
+  UPDATE_INVESTOR_ONRISE_ON_SERVER,
+  FETCH_INVESTORS_SUCCESS, // Новый тип экшена для загрузки данных
+} from './actions';
 
-import { ADD_INVESTOR, DELETE_INVESTOR, UPDATE_INVESTOR_ONRISE } from './actions';
+const initialState = [];
 
- const initialData = [
-  { index: 1, name: 'Vlad', lastName: 'Pritzker', investedAmount: '4000$', onrise: false },
-  { index: 2, name: 'Ruslan', lastName: 'Manager', investedAmount: '500$', onrise: false },
-  { index: 3, name: 'Poll', lastName: 'Design', investedAmount: '4000$', onrise: false }
-];
-
-export default function reducer(state = initialData, action) {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case ADD_INVESTOR:
-      return [...state, action.payload]; // Обновляем список инвесторов
-    case DELETE_INVESTOR:
-      return state.filter((investor) => investor.index !== action.payload);
-    case UPDATE_INVESTOR_ONRISE:
-      return action.payload; // Обновляем список инвесторов с новыми значениями onrise
+    case ADD_INVESTOR_TO_SERVER:
+      return [...state, action.payload];
+    case DELETE_INVESTOR_ON_SERVER:
+      return state.filter((investor) => investor.index !== action.payload); 
+    case UPDATE_INVESTOR_ONRISE_ON_SERVER:
+      return state.map((investor) =>
+        investor.index === action.payload.index
+          ? { ...investor, onrise: action.payload.onrise }
+          : investor
+      );
+    case FETCH_INVESTORS_SUCCESS: // Обработка нового типа экшена
+      return action.payload; // Просто заменяем состояние данными из сервера
     default:
       return state;
   }
