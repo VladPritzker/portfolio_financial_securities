@@ -24,6 +24,7 @@ export function addInvestorToServer(newInvestor) {
             type: ADD_INVESTOR_TO_SERVER, // Используем константу для типа экшена
             payload: newInvestor, // Передаем данные в payload
           });
+          // window.location.reload();
         }
       })
       .catch((error) => {
@@ -33,9 +34,9 @@ export function addInvestorToServer(newInvestor) {
 }
 
 // Экшен для удаления инвестора на сервере
-export function deleteInvestorOnServer(id) {
+export function deleteInvestorOnServer(customId) {
   return (dispatch) => {
-    fetch(`http://localhost:4000/api/investors/${id}`, {
+    fetch(`http://localhost:4000/api/investors/customId/${customId}`, {
       method: 'DELETE',
     })
       .then((response) => response.json())
@@ -43,11 +44,8 @@ export function deleteInvestorOnServer(id) {
         if (data.success) {
           dispatch({
             type: DELETE_INVESTOR_ON_SERVER,
-            payload: id,
+            payload: customId,
           });
-
-          // После успешного удаления, перезагрузите страницу
-          window.location.reload();
         }
       })
       .catch((error) => {
@@ -88,8 +86,8 @@ export function fetchInvestors() {
       .then((response) => response.json())
       .then((data) => {
         dispatch({
-          type: 'FETCH_INVESTORS_SUCCESS', // Предположим, что это тип экшена для успешной загрузки данных
-          payload: data, // Передаем данные из сервера в payload
+          type: FETCH_INVESTORS_SUCCESS,
+          payload: data,
         });
       })
       .catch((error) => {

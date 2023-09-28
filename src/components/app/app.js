@@ -13,7 +13,7 @@ import {
   fetchInvestors, // Импортируем экшен для загрузки данных с сервера
 } from '../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -59,32 +59,57 @@ function App() {
 
   
   
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-
-    const newInvestor = {
-      id: uuidv4(), // Генерация уникального id
-      name: firstName,
-      lastName: lastName,
-      investedAmount: `${investedAmount}$`,
-      onrise: false,
-    };
-
-    dispatch(addInvestorToServer(newInvestor)); // Отправляем запрос на сервер для добавления инвестора
-    setFirstName('');
-    setLastName('');
-    setInvestedAmount('');
+  
+    try {
+      const response = await fetch('http://localhost:4000/api/investors/max-id');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      const maxId = data.maxId || 0;
+      const newId = maxId + 1;
+  
+      const newInvestor = {
+        id: newId,
+        customId: newId,
+        name: firstName,
+        lastName: lastName,
+        investedAmount: `${investedAmount}$`,
+        onrise: false,
+      };
+      
+      // Отправляем нового инвестора с customId на сервер
+      dispatch(addInvestorToServer(newInvestor));
+      
+      setFirstName('');
+      setLastName('');
+      setInvestedAmount('');
+    } catch (error) {
+      console.error('Error fetching maximum ID:', error);
+    }
   };
-
+  
+  
 
 
 
   
-  const handleDeleteInvestor = (index) => {
-    dispatch(deleteInvestorOnServer(index)); // Отправляем запрос на сервер для удаления инвестора
-    setDeleteConfirmationVisible(false);
-  };
+  const handleDeleteInvestor = async (customId) => {
+    console.log('Deleting investor with customId:', customId);
+    try {
+      // Используйте экшен deleteInvestorOnServer для удаления инвестора на сервере
+      dispatch(deleteInvestorOnServer(customId)); // Используйте customId вместо id
+      setDeleteConfirmationVisible(!isDeleteConfirmationVisible);
 
+    } catch (error) {
+      console.error('Error deleting investor:', error);
+    }
+  };
+  
+   
+  
 
 
   
@@ -169,7 +194,7 @@ function App() {
         onRiseStar={(index) => onRiseStar(index)} // Убедитесь, что index правильно передается здесь
 
         toggleDeleteConfirmation={toggleDeleteConfirmation} // Pass the function here
-        keyExtractor={(investor) => investor.index} // Уникальный ключ инвестора
+        keyExtractor={(investor) => investor.id} // Используйте уникальное поле, например, id
         />
       <EmployeesAddForm
         onFormSubmit={handleFormSubmit}
@@ -184,7 +209,7 @@ function App() {
   <div className="confirmation-modal">
     <div className="confirmation-box">
       <p>Are you sure?</p>
-      <button onClick={() => handleDeleteInvestor(indexToDelete)}>Yes</button>
+      <button onClick={() => handleDeleteInvestor(indexToDelete)}>Да</button>
       <button onClick={toggleDeleteConfirmation}>No</button>
     </div>
   </div>

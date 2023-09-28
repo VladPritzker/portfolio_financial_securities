@@ -4,8 +4,9 @@ import './employees-list.css';
 
 const EmployeesList = ({ displayedData, onRiseStar, toggleDeleteConfirmation }) => {
     return (
-        <ul className="app-list list-group"> {displayedData.map((investor) => (<EmployeesListItem key={investor.id} data={{
-            index: investor.id, // Используйте поле id в качестве индекса
+        <ul className="app-list list-group"> {displayedData.map((investor) => (<EmployeesListItem key={investor.customId}
+            data={{
+            index: investor.customId, // Используйте поле id в качестве индекса
             name: investor.name,
             lastName: investor.lastName,
             investedAmount: investor.investedAmount,
