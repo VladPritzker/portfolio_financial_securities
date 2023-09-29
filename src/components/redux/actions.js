@@ -56,22 +56,23 @@ export function deleteInvestorOnServer(customId) {
 
 
 
-// Экшен для обновления состояния onrise инвестора на сервере
-export function updateInvestorOnRiseOnServer(index, onrise) {
+export function updateInvestorOnRiseOnServer(customId, onrise) {
+  console.log('Received parameters:', customId, onrise);
+
   return (dispatch) => {
-    fetch(`http://localhost:4000/api/investors`, {
+    fetch(`http://localhost:4000/api/investors/customId/${customId}`, { // Используйте URL с customId
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ index, onrise }),
+      body: JSON.stringify({ onrise })
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
           dispatch({
             type: UPDATE_INVESTOR_ONRISE_ON_SERVER,
-            payload: { index, onrise }, // Передаем объект в payload
+            payload: { customId, onrise },
           });
         }
       })
@@ -80,6 +81,8 @@ export function updateInvestorOnRiseOnServer(index, onrise) {
       });
   };
 }
+
+
 export function fetchInvestors() {
   return (dispatch) => {
     fetch('http://localhost:4000/api/investors')

@@ -114,11 +114,12 @@ function App() {
 
   
 
-  const onRiseStar = (index) => {
+  const onRiseStar = (customId) => {
     // Отправляем запрос на сервер для обновления состояния onrise инвестора
-    console.log(index)
-    dispatch(updateInvestorOnRiseOnServer(index, !data[index].onrise));
-  };
+    console.log(customId)
+    dispatch(updateInvestorOnRiseOnServer(customId, !data.find(item => item.customId === customId).onrise));
+};
+
   
   const onRise = () => {
     setActiveButton('onRise');

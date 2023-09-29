@@ -11,7 +11,9 @@ const EmployeesList = ({ displayedData, onRiseStar, toggleDeleteConfirmation }) 
             lastName: investor.lastName,
             investedAmount: investor.investedAmount,
             onrise: investor.onrise,
-          }} onRiseStar={onRiseStar} toggleDeleteConfirmation={toggleDeleteConfirmation}  />))}
+          }} onRiseStar={(customId) => onRiseStar(customId)}
+          toggleDeleteConfirmation={(customId) => toggleDeleteConfirmation(customId)}
+          />))}
         </ul>
     );
 };

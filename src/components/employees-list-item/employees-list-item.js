@@ -5,8 +5,13 @@ const EmployeesListItem = ({ data, onRiseStar, toggleDeleteConfirmation }) => {
     const [inputValue, setInputValue] = useState(data.investedAmount); // Стейт для управления значением input
 
     const handleCookieClick = () => {
-        onRiseStar(data.index); // Вызываем функцию onRiseStar с индексом элемента
-    };
+        if (data && data.index) {
+          onRiseStar(data.index);
+        } else {
+          console.log('error');
+        }
+      };
+      
 
     const handleInputChange = (event) => {
         const newValue = event.target.value;
