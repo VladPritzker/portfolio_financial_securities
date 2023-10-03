@@ -10,7 +10,9 @@ import {
   addInvestorToServer,
   deleteInvestorOnServer,
   updateInvestorOnRiseOnServer,
-  fetchInvestors, // Импортируем экшен для загрузки данных с сервера
+  fetchInvestors,
+  UPDATE_INVESTOR_ONRISE_ON_SERVER
+  // Импортируем экшен для загрузки данных с сервера
 } from '../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 // import { v4 as uuidv4 } from 'uuid';
@@ -114,11 +116,25 @@ function App() {
 
   
 
-  const onRiseStar = (customId) => {
-    // Отправляем запрос на сервер для обновления состояния onrise инвестора
-    console.log(customId)
-    dispatch(updateInvestorOnRiseOnServer(customId, !data.find(item => item.customId === customId).onrise));
-};
+  const onRiseStar = async (customId) => {
+    try {
+      const investor = data.find(item => item.customId === customId);
+      const newOnRise = !investor.onrise ? 1 : 0; // Инвертируем значение для сервера
+  
+      // Ожидаем, пока обновление на сервере не завершится
+      await dispatch(updateInvestorOnRiseOnServer(customId, newOnRise));
+  
+      // Этот код выполнится только после успешного обновления на сервере
+      dispatch({
+        type: UPDATE_INVESTOR_ONRISE_ON_SERVER,
+        payload: { customId, onrise: newOnRise },
+      });
+    } catch (error) {
+      console.error('Ошибка при обновлении инвестора:', error);
+    }
+  };
+  
+  
 
   
   const onRise = () => {

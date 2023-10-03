@@ -70,6 +70,7 @@ export function updateInvestorOnRiseOnServer(customId, onrise) {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
+          // Если обновление на сервере прошло успешно, обновите данные в Redux Store
           dispatch({
             type: UPDATE_INVESTOR_ONRISE_ON_SERVER,
             payload: { customId, onrise },
