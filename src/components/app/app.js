@@ -48,7 +48,7 @@ function App() {
   
   
 
-  const onRiseCount = data ? data.filter((item) => item.onrise === true).length : 0;
+  const onRiseCount = data ? data.filter((item) => item.onrise === 1).length : 0;
   const moreThan100 = data ? data.filter((item) => parseInt(item.investedAmount) > 1000).length : 0;
   
 
@@ -162,27 +162,33 @@ function App() {
     let filteredData = data;
   
     if (activeButton === 'onRise') {
-      filteredData = filteredData.filter((item) => item.onrise === true);
+      filteredData = filteredData.filter((item) => item.onrise === 1);
     } else if (activeButton === 'highIncome') {
       filteredData = filteredData.filter((item) => parseInt(item.investedAmount) > 1000);
     }
   
     if (searchText.length > 0) {
       const searchTextLower = searchText.toLowerCase();
-      filteredData = filteredData.filter((item) => {
+      const salaries = filteredData.map((item) => item.investedAmount); // Получение массива значений атрибута "salary"
+      filteredData = filteredData.filter((item, index) => {
         if (!isNaN(searchTextLower)) {
-          return item.salary.includes(searchTextLower);
+          const salary = salaries[index];
+          console.log(item.salary); // Вывод значения атрибута "salary"
+          if (salary && salary.includes(searchTextLower)) {
+            return true;
+          }
         } else {
           return (
             item.name.toLowerCase().includes(searchTextLower) ||
             item.lastName.toLowerCase().includes(searchTextLower)
           );
-        }
+        }        
       });
     }
   
     return filteredData;
   }
+  
   
   return (
     <div className="app">
