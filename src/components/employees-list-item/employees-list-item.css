@@ -1,3 +1,7 @@
+.modal {
+    display: none; /* Initially hide the modal */
+    /* Add other modal styles here */
+  }
 .list-group-item {
     padding: 15px 20px;
     background-color: #c7cdd5;}
@@ -61,4 +65,13 @@
 .list-group-item.increase .btn-star {
     color: #aeaeae;
 }
-  
+.investor-amount {
+    color: rgb(21, 141, 246);
+    margin-top: 23px;
+    font-size: 25px; /* Adjust the font size to your desired value */
+  }
+
+  .list-group-item-label{
+    margin-top: 23px;
+    font-size: 50px; /* Adjust the font size to your desired value */
+  }

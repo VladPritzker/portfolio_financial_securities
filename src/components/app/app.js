@@ -11,7 +11,9 @@ import {
   deleteInvestorOnServer,
   updateInvestorOnRiseOnServer,
   fetchInvestors,
-  UPDATE_INVESTOR_ONRISE_ON_SERVER
+  UPDATE_INVESTOR_ONRISE_ON_SERVER,
+  updateInvestedAmountOnServer,
+  UPDATE_INVESTED_AMOUNT_ON_SERVER
   // Импортируем экшен для загрузки данных с сервера
 } from '../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,35 +25,82 @@ function App() {
 
   
   const [activeButton, setActiveButton] = useState('all');
-  const [searchText, setSearchText] = useState('');
-  const [firstName, setFirstName] = useState(''); // State for first name
-  const [lastName, setLastName] = useState('');   // State for last name
-  const [investedAmount, setInvestedAmount] = useState(''); // State for invested amount
-  const [isDeleteConfirmationVisible, setDeleteConfirmationVisible] = useState(false);
-  const [indexToDelete, setIndexToDelete] = useState(null);
-  
-  const dispatch = useDispatch();
-  const data = useSelector((state) => state);
+const [searchText, setSearchText] = useState('');
+const [firstName, setFirstName] = useState('');
+const [lastName, setLastName] = useState('');
+const [isDeleteConfirmationVisible, setDeleteConfirmationVisible] = useState(false);
+const [indexToDelete, setIndexToDelete] = useState(null);
+const [investedAmount, setInvestedAmount] = useState('');
+const dispatch = useDispatch();
+const data = useSelector((state) => state);
+const [isEditModalOpen, setEditModalOpen] = useState(false);
+const [editedInvestedAmount, setEditedInvestedAmount] = useState('');
+const [investorToEdit, setInvestorToEdit] = useState(null);
+
+
+const openEditModal = (customId) => {
+  console.log("Opening edit modal for customId:", customId);
+
+  setInvestorToEdit(customId);
+  setEditedInvestedAmount(''); // Reset editedInvestedAmount
+  setEditModalOpen(true);
+  console.log("isEditModalOpen:", isEditModalOpen); // Log the value of isEditModalOpen
+};
+
+
+  const closeEditModal = () => {
+    setEditModalOpen(false);
+    // You can also reset editedInvestedAmount here if needed.
+  };
 
   useEffect(() => {
     dispatch(fetchInvestors()); // Вызываем экшен для загрузки данных с сервера при монтировании компонента
   }, [dispatch]);
 
  
+  const handleUpdateInvestedAmount = async (customId, newInvestedAmount) => {
+    try {
+      // Send the edited invested amount to the server and use the updateInvestedAmountOnServer action
+      await dispatch(updateInvestedAmountOnServer(customId, newInvestedAmount));
+  
+      // Update the state in Redux to reflect the updated value without page reload
+      dispatch({
+        type: UPDATE_INVESTED_AMOUNT_ON_SERVER,
+        payload: { customId, investedAmount: newInvestedAmount },
+      });
+  
+      // Close the edit modal
+      closeEditModal(); // Call the closeEditModal function
+      console.log("new invested amount", newInvestedAmount);
 
+    } catch (error) {
+      console.error('Error updating invested amount:', error);
+    }
+  };;
+
+
+  
   
   
   const toggleDeleteConfirmation = (index) => {
     setIndexToDelete(index);
     setDeleteConfirmationVisible(!isDeleteConfirmationVisible);
   };
-  
+
+  const onUpdateInvestedAmount = (customId) => {
+    // You need to get the new invested amount from the editedInvestedAmount state
+    const newInvestedAmount = editedInvestedAmount;
+    
+    // Call the function to update investedAmount
+    handleUpdateInvestedAmount(customId, newInvestedAmount);
+    
+    // Open the edit modal
+    setEditModalOpen(true);
+  };
   
 
   const onRiseCount = data ? data.filter((item) => item.onrise === 1).length : 0;
   const moreThan100 = data ? data.filter((item) => parseInt(item.investedAmount) > 1000).length : 0;
-  
-
   
 
   const handleSearch = (text) => {
@@ -155,6 +204,12 @@ function App() {
     // setData(data)
   };
 
+  
+  
+  
+
+  // Close the edit modal
+  
 
   const displayedData = getDisplayedData();
 
@@ -189,7 +244,6 @@ function App() {
     return filteredData;
   }
   
-  
   return (
     <div className="app">
       <AppInfo totalEmployeeCount={data.length} onRiseCount={onRiseCount}  moreThan100={moreThan100}/>
@@ -214,11 +268,13 @@ function App() {
       <EmployeesList
         displayedData={displayedData}
         data={data}
-        onRiseStar={(index) => onRiseStar(index)} // Убедитесь, что index правильно передается здесь
-
-        toggleDeleteConfirmation={toggleDeleteConfirmation} // Pass the function here
-        keyExtractor={(investor) => investor.id} // Используйте уникальное поле, например, id
-        />
+        onRiseStar={(index) => onRiseStar(index)}
+        toggleDeleteConfirmation={toggleDeleteConfirmation}
+        openEditModal={(customId) => openEditModal(customId)} // Pass openEditModal function
+        keyExtractor={(investor) => investor.id}
+        handleUpdateInvestedAmount={handleUpdateInvestedAmount}
+        setEditModalOpen={setEditModalOpen}
+      />
       <EmployeesAddForm
         onFormSubmit={handleFormSubmit}
         firstName={firstName}
@@ -237,6 +293,24 @@ function App() {
     </div>
   </div>
 )}
+  
+  {isEditModalOpen && (
+        <div className="investor-amount-window">
+          <div className="amount-change">
+            <span className="close" onClick={closeEditModal}>&times;</span>
+            <h2>Edit Invested Amount</h2>
+            {/* Fetch and display current invested amount based on investorToEdit */}
+            
+            <input
+              type="text"
+              value={editedInvestedAmount}
+              onChange={(e) => setEditedInvestedAmount(e.target.value)}
+            />
+            <button onClick={() => handleUpdateInvestedAmount(investorToEdit, editedInvestedAmount)}>Save</button>
+            <button onClick={closeEditModal}>Cancel</button>
+          </div>
+        </div>
+      )}
 
     </div>
   );

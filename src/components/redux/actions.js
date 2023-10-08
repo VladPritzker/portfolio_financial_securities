@@ -2,7 +2,34 @@ export const ADD_INVESTOR_TO_SERVER = 'ADD_INVESTOR_TO_SERVER';
 export const DELETE_INVESTOR_ON_SERVER = 'DELETE_INVESTOR_ON_SERVER';
 export const UPDATE_INVESTOR_ONRISE_ON_SERVER = 'UPDATE_INVESTOR_ONRISE_ON_SERVER';
 export const FETCH_INVESTORS_SUCCESS = 'FETCH_INVESTORS_SUCCESS';
+export const UPDATE_INVESTED_AMOUNT_ON_SERVER = 'UPDATE_INVESTED_AMOUNT_ON_SERVER';
 
+
+// Action creator to update the invested amount on the server
+export function updateInvestedAmountOnServer(customId, newInvestedAmount) {
+  return (dispatch) => {
+    fetch(`http://localhost:4000/api/investors/customId/${customId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ investedAmount: newInvestedAmount }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // If the update on the server is successful, update the data in Redux store
+          dispatch({
+            type: UPDATE_INVESTED_AMOUNT_ON_SERVER,
+            payload: { customId, investedAmount: newInvestedAmount },
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating invested amount:', error);
+      });
+  };
+}
 
 
 
