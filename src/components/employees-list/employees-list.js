@@ -2,7 +2,7 @@ import React from 'react';
 import EmployeesListItem from "../employees-list-item/employees-list-item";
 import './employees-list.css';
 
-const EmployeesList = ({ displayedData, onRiseStar, toggleDeleteConfirmation, openEditModal }) => {
+const EmployeesList = ({ displayedData, onRiseStar, toggleDeleteConfirmation, openEditModal, investedAmount }) => {
   return (
     <ul className="app-list list-group">
       {displayedData.map((investor) => (
@@ -18,6 +18,7 @@ const EmployeesList = ({ displayedData, onRiseStar, toggleDeleteConfirmation, op
           onRiseStar={(customId) => onRiseStar(customId)}
           toggleDeleteConfirmation={(customId) => toggleDeleteConfirmation(customId)}
           setEditModalOpen={(customId) => openEditModal(customId)} // Pass openEditModal function
+          investedAmount={investedAmount}
         />
       ))}
     </ul>

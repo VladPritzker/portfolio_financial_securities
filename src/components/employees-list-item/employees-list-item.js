@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import './employees-list-item.css';
 
 const EmployeesListItem = ({
@@ -16,19 +17,18 @@ const EmployeesListItem = ({
       console.log('error');
     }
   };
-
-  const handleInputChange = (event) => {
-    const newValue = event.target.value;
-    setInputValue(newValue);
-  };
+  useEffect(() => {
+    // Обновите inputValue при изменении data.investedAmount
+    setInputValue(data.investedAmount);
+  }, [data.investedAmount]);
+  
 
   return (
     <li className={`list-group-item d-flex justify-content-between ${data.onrise ? 'like' : ''}`}>
       <span className="list-group-item-label">{data.name} {data.lastName}</span>
       <p type="text"
-        className="investor-amount"
-        onChange={handleInputChange}>
-        Invested Amount {inputValue}
+        className="investor-amount">
+        Invested Amount {inputValue}$
       </p>
       
       <div className='d-flex justify-content-center align-items-center'>

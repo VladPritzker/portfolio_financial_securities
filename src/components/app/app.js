@@ -36,6 +36,8 @@ const data = useSelector((state) => state);
 const [isEditModalOpen, setEditModalOpen] = useState(false);
 const [editedInvestedAmount, setEditedInvestedAmount] = useState('');
 const [investorToEdit, setInvestorToEdit] = useState(null);
+const [inputError, setInputError] = useState('');
+
 
 
 const openEditModal = (customId) => {
@@ -59,24 +61,31 @@ const openEditModal = (customId) => {
 
  
   const handleUpdateInvestedAmount = async (customId, newInvestedAmount) => {
-    try {
-      // Send the edited invested amount to the server and use the updateInvestedAmountOnServer action
-      await dispatch(updateInvestedAmountOnServer(customId, newInvestedAmount));
+    if (isNaN(newInvestedAmount)) {
+      setInputError('Please enter a valid number');
+      return;
+    }
   
-      // Update the state in Redux to reflect the updated value without page reload
+    setInputError(''); // Сброс ошибки, если введено число
+  
+    try {
+      // Сразу обновите Redux Store локально перед отправкой на сервер
       dispatch({
         type: UPDATE_INVESTED_AMOUNT_ON_SERVER,
         payload: { customId, investedAmount: newInvestedAmount },
       });
   
+      // Затем отправьте обновленное значение на сервер и используйте экшен updateInvestedAmountOnServer
+      await dispatch(updateInvestedAmountOnServer(customId, newInvestedAmount));
+  
       // Close the edit modal
-      closeEditModal(); // Call the closeEditModal function
-      console.log("new invested amount", newInvestedAmount);
-
+      closeEditModal();
     } catch (error) {
       console.error('Error updating invested amount:', error);
     }
-  };;
+  };
+  
+  
 
 
   
@@ -87,16 +96,7 @@ const openEditModal = (customId) => {
     setDeleteConfirmationVisible(!isDeleteConfirmationVisible);
   };
 
-  const onUpdateInvestedAmount = (customId) => {
-    // You need to get the new invested amount from the editedInvestedAmount state
-    const newInvestedAmount = editedInvestedAmount;
-    
-    // Call the function to update investedAmount
-    handleUpdateInvestedAmount(customId, newInvestedAmount);
-    
-    // Open the edit modal
-    setEditModalOpen(true);
-  };
+  
   
 
   const onRiseCount = data ? data.filter((item) => item.onrise === 1).length : 0;
@@ -274,6 +274,7 @@ const openEditModal = (customId) => {
         keyExtractor={(investor) => investor.id}
         handleUpdateInvestedAmount={handleUpdateInvestedAmount}
         setEditModalOpen={setEditModalOpen}
+        investedAmount={investedAmount} // Передача investedAmount
       />
       <EmployeesAddForm
         onFormSubmit={handleFormSubmit}
@@ -295,22 +296,28 @@ const openEditModal = (customId) => {
 )}
   
   {isEditModalOpen && (
-        <div className="investor-amount-window">
-          <div className="amount-change">
-            <span className="close" onClick={closeEditModal}>&times;</span>
-            <h2>Edit Invested Amount</h2>
-            {/* Fetch and display current invested amount based on investorToEdit */}
-            
-            <input
-              type="text"
-              value={editedInvestedAmount}
-              onChange={(e) => setEditedInvestedAmount(e.target.value)}
-            />
-            <button onClick={() => handleUpdateInvestedAmount(investorToEdit, editedInvestedAmount)}>Save</button>
-            <button onClick={closeEditModal}>Cancel</button>
-          </div>
-        </div>
-      )}
+  <div className="investor-amount-window">
+    <div className="amount-change">
+      <span className="close" onClick={closeEditModal}>&times;</span>
+      <h2>Edit Invested Amount</h2>
+      {/* Fetch and display current invested amount based on investorToEdit */}
+      
+      <input
+        type="text"
+        value={editedInvestedAmount}
+        onChange={(e) => {
+          // Сброс ошибки при изменении значения
+          setInputError('');
+          setEditedInvestedAmount(e.target.value);
+        }}
+      />
+      {inputError && <div className="error-message">{inputError}</div>}
+      <button onClick={() => handleUpdateInvestedAmount(investorToEdit, editedInvestedAmount)}>Save</button>
+      <button onClick={closeEditModal}>Cancel</button>
+    </div>
+  </div>
+)}
+
 
     </div>
   );

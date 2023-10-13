@@ -6,32 +6,59 @@ export const UPDATE_INVESTED_AMOUNT_ON_SERVER = 'UPDATE_INVESTED_AMOUNT_ON_SERVE
 
 
 // Action creator to update the invested amount on the server
-export function updateInvestedAmountOnServer(customId, newInvestedAmount) {
+export function updateInvestedAmountOnServer(customId, investedAmount) {
+  console.log('Received parameters:', customId, investedAmount);
+
   return (dispatch) => {
     fetch(`http://localhost:4000/api/investors/customId/${customId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ investedAmount: newInvestedAmount }),
+      body: JSON.stringify({ updateType: 'investedAmount', investedAmount }) // Включите updateType в тело запроса
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          // If the update on the server is successful, update the data in Redux store
           dispatch({
             type: UPDATE_INVESTED_AMOUNT_ON_SERVER,
-            payload: { customId, investedAmount: newInvestedAmount },
+            payload: { customId, investedAmount },
           });
         }
       })
       .catch((error) => {
-        console.error('Error updating invested amount:', error);
+        console.error('Ошибка при обновлении инвестора:', error);
       });
   };
 }
 
 
+
+export function updateInvestorOnRiseOnServer(customId, onrise) {
+  console.log('Received parameters:', customId, onrise);
+
+  return (dispatch) => {
+    fetch(`http://localhost:4000/api/investors/customId/${customId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ updateType: 'onrise', onrise }) // Включите updateType в тело запроса
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: UPDATE_INVESTOR_ONRISE_ON_SERVER,
+            payload: { customId, onrise },
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Ошибка при обновлении инвестора:', error);
+      });
+  };
+}
 
 // Экшен для добавления инвестора на сервер
 export function addInvestorToServer(newInvestor) {
@@ -83,32 +110,7 @@ export function deleteInvestorOnServer(customId) {
 
 
 
-export function updateInvestorOnRiseOnServer(customId, onrise) {
-  console.log('Received parameters:', customId, onrise);
 
-  return (dispatch) => {
-    fetch(`http://localhost:4000/api/investors/customId/${customId}`, { // Используйте URL с customId
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ onrise })
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          // Если обновление на сервере прошло успешно, обновите данные в Redux Store
-          dispatch({
-            type: UPDATE_INVESTOR_ONRISE_ON_SERVER,
-            payload: { customId, onrise },
-          });
-        }
-      })
-      .catch((error) => {
-        console.error('Ошибка при обновлении инвестора:', error);
-      });
-  };
-}
 
 
 export function fetchInvestors() {

@@ -137,3 +137,12 @@
 /* amount change */ /* amount change */ /* amount change */ /* amount change */ /* amount change */ /* amount change */
 /* amount change */ /* amount change */ /* amount change */ /* amount change */ /* amount change */ /* amount change */
 /* amount change */ /* amount change */ /* amount change */ /* amount change */ /* amount change */ /* amount change */
+
+
+/* Добавьте отступ справа для сообщения об ошибке */
+.error-message {
+  margin-top: 20px; /* Расстояние между сообщением об ошибке и полем ввода */
+  margin-bottom: 20px;
+  margin-left: -20px;
+  color:#ff0040
+}
