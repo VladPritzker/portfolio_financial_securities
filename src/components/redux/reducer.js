@@ -15,18 +15,18 @@ export default function reducer(state = initialState, action) {
       return [...state, action.payload];
     case DELETE_INVESTOR_ON_SERVER:
       return state.filter((investor) => investor.customId !== action.payload);
-      case UPDATE_INVESTOR_ONRISE_ON_SERVER:
-        return state.map((investor) =>
-          investor.customId === action.payload.customId
-            ? { ...investor, onrise: action.payload.onrise }
-            : investor
-        );
-        case UPDATE_INVESTED_AMOUNT_ON_SERVER:
-          return state.map((investor) =>
-          investor.customId === action.payload.customId
-          ? { ...investor, investedAmount: action.payload.investedAmount }
+    case UPDATE_INVESTOR_ONRISE_ON_SERVER:
+      return state.map((investor) =>
+        investor.customId === action.payload.customId
+          ? { ...investor, onrise: action.payload.onrise }
           : investor
-           );
+      );
+    case UPDATE_INVESTED_AMOUNT_ON_SERVER:
+      return state.map((investor) =>
+      investor.customId === action.payload.customId
+      ? { ...investor, investedAmount: action.payload.investedAmount }
+      : investor
+        );
     case FETCH_INVESTORS_SUCCESS:
       return action.payload;
     default:

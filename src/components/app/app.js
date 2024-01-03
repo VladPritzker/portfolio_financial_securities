@@ -5,6 +5,8 @@ import SearchPanel from '../search-panel/search-panel';
 import AppFilter from '../app-filter/app-filter';
 import EmployeesList from '../employees-list/employees-list';
 import EmployeesAddForm from '../employees-add-form/employees-add-form';
+import Calendar from '../calendar/calendar';
+
 import {
   // ... другие импорты ...
   addInvestorToServer,
@@ -37,6 +39,12 @@ const [isEditModalOpen, setEditModalOpen] = useState(false);
 const [editedInvestedAmount, setEditedInvestedAmount] = useState('');
 const [investorToEdit, setInvestorToEdit] = useState(null);
 const [inputError, setInputError] = useState('');
+const [showCalendar, setShowCalendar] = useState(false);
+
+const toggleCalendar = () => {
+  setShowCalendar(!showCalendar);
+};
+
 
 
 
@@ -285,15 +293,21 @@ const openEditModal = (customId) => {
         investedAmount={investedAmount}
         setInvestedAmount={setInvestedAmount}
       />
-  {isDeleteConfirmationVisible && (
-  <div className="confirmation-modal">
-    <div className="confirmation-box">
-      <p>Are you sure?</p>
-      <button onClick={() => handleDeleteInvestor(indexToDelete)}>Да</button>
-      <button onClick={toggleDeleteConfirmation}>No</button>
-    </div>
-  </div>
-)}
+      <button className='calendar' onClick={toggleCalendar}>Progress</button>
+
+      {showCalendar && <Calendar />}
+
+
+
+        {isDeleteConfirmationVisible && (
+        <div className="confirmation-modal">
+          <div className="confirmation-box">
+            <p>Are you sure?</p>
+            <button onClick={() => handleDeleteInvestor(indexToDelete)}>Да</button>
+            <button onClick={toggleDeleteConfirmation}>No</button>
+          </div>
+        </div>
+      )}
   
   {isEditModalOpen && (
   <div className="investor-amount-window">

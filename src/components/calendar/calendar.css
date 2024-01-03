@@ -1,0 +1,196 @@
+/* calendar.css */
+
+.calendar-container {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr); /* Create 15 equal columns */
+  grid-gap: 10px; /* Adjust the gap between the items */
+  /* Add additional styling as needed */
+}
+
+
+
+
+
+.calendarT {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .day-details-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000; /* Ensure it's above other content */
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  .day-details-content h2 {
+    margin-bottom: 10px;
+  }
+  
+  .day-details-content div {
+    margin-bottom: 5px;
+  }
+  
+  .calendar-day {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    margin: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal input {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+
+  .calendar-day.empty-study {
+    background-color: red;
+  }
+  
+  .calendar-day.filled-study {
+    background-color: green;
+  }
+
+
+  /* calendar.css */
+
+.day-details-modal button {
+  padding: 10px 20px;
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  outline: none;
+  margin-top: 15px; /* Add margin to the top */
+}
+
+.day-details-modal button:hover {
+  background-color: #0056b3; /* A slightly darker shade for hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px); /* Slight lift */
+}
+
+.day-details-modal button:active {
+  background-color: #004085; /* Even darker for the active state */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(0);
+}
+
+
+.calendar-day-studied {
+  background-color: rgb(138, 239, 138);
+  /* Other styling */
+}
+
+.calendar-day-not-studied {
+  background-color: rgb(244, 183, 183);
+  /* Other styling */
+}
+
+.day-details-modal input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px; /* Add some space between the fields */
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.day-details-modal label {
+  display: block; /* Make label take the full width */
+  margin-bottom: 10px; /* Space below the label */
+}
+
+.day-details-modal input[type="checkbox"] {
+  margin-left: 5px;
+}
+
+.day-details-content button[type="close"]{
+  margin-right: 150px;
+}
+
+
+/* Confirmation box */
+.confirmation-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.confirmation-box p {
+  margin: 0;
+  padding: 10px 0;
+  font-size: 18px;
+  color: #333333;
+}
+
+.confirmation-box button {
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  margin-top: 15px;
+  transition: background-color 0.3s, transform 0.2s;
+  outline: none;
+}
+
+.confirmation-box button:hover {
+  background-color: #0056b3; /* A slightly darker shade for hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px); /* Slight lift */
+}
+
+.confirmation-box button:active {
+  background-color: #004085; /* Even darker for the active state */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(0);
+}
+
+/* Confirmation box */
