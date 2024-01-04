@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './calendar.css';
 
-const Calendar = () => {
+const Calendar_2024 = () => {
   const [calendarData, setCalendarData] = useState([]);
   const [selectedDay, setSelectedDay] = useState(null);
   const [dayDetails, setDayDetails] = useState({ wokeUp: '', slept: '', studied: false });
@@ -132,4 +132,4 @@ const Calendar = () => {
   );
 };
 
-export default Calendar;
+export default Calendar_2024;

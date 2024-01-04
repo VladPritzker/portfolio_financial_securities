@@ -5,7 +5,7 @@ import SearchPanel from '../search-panel/search-panel';
 import AppFilter from '../app-filter/app-filter';
 import EmployeesList from '../employees-list/employees-list';
 import EmployeesAddForm from '../employees-add-form/employees-add-form';
-import Calendar from '../calendar/calendar';
+import Calendar_2024 from '../calendar/calendar';
 
 import {
   // ... другие импорты ...
@@ -135,7 +135,7 @@ const openEditModal = (customId) => {
         customId: newId,
         name: firstName,
         lastName: lastName,
-        investedAmount: `${investedAmount}$`,
+        investedAmount: `${investedAmount}`,
         onrise: false,
       };
       
@@ -293,9 +293,9 @@ const openEditModal = (customId) => {
         investedAmount={investedAmount}
         setInvestedAmount={setInvestedAmount}
       />
-      <button className='calendar' onClick={toggleCalendar}>Progress</button>
+      <button className='calendar' onClick={toggleCalendar}>Progress of 2024</button>
 
-      {showCalendar && <Calendar />}
+      {showCalendar && <Calendar_2024/>}
 
 
 
@@ -303,7 +303,7 @@ const openEditModal = (customId) => {
         <div className="confirmation-modal">
           <div className="confirmation-box">
             <p>Are you sure?</p>
-            <button onClick={() => handleDeleteInvestor(indexToDelete)}>Да</button>
+            <button onClick={() => handleDeleteInvestor(indexToDelete)}>Yes</button>
             <button onClick={toggleDeleteConfirmation}>No</button>
           </div>
         </div>
